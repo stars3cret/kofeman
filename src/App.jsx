@@ -11,15 +11,15 @@ import latteImg from './latte.jpg';
 import iceLatteImg from './ice_latte.jpg';
 import bubbleTeaImg from './bubble_tea.jpg';
 
-const TELEGRAM_BOT_TOKEN = '8917102625:AAEX5vY3WAzTSl4AH0v0RfYSHCY626x_yc4';
+const TELEGRAM_BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';
 
-// Список филиалов с индивидуальными Chat ID для каждого менеджера/чата
+// Список филиалов с индивидуальными Chat ID (если заменено на CHAT_ID_, включится демо-режим во избежание ошибок)
 const branches = [
-  { name: 'ул. Кофейная, д. 1 (Центральный)', chatId: '1609383002' },
-  { name: 'пр. Ленина, д. 45', chatId: '1609383002' },
-  { name: 'ТЦ «Гламур», 1 этаж', chatId: '1609383002' },
-  { name: 'ул. Пушкина, д. 12', chatId: '1609383002' },
-  { name: 'Парковая аллея, павильон №3', chatId: '1609383002' }
+  { name: 'ул. Кофейная, д. 1 (Центральный)', chatId: 'CHAT_ID_CENTRAL' },
+  { name: 'пр. Ленина, д. 45', chatId: 'CHAT_ID_LENINA' },
+  { name: 'ТЦ «Гламур», 1 этаж', chatId: 'CHAT_ID_GLAMUR' },
+  { name: 'ул. Пушкина, д. 12', chatId: 'CHAT_ID_PUSHKINA' },
+  { name: 'Парковая аллея, павильон №3', chatId: 'CHAT_ID_PARK' }
 ];
 
 function App() {
@@ -28,7 +28,6 @@ function App() {
   const [activeTab, setActiveTab] = useState('description');
   const [cart, setCart] = useState([]);
   
-  // Текущий выбранный филиал (объект целиком)
   const [currentBranch, setCurrentBranch] = useState(branches[0]);
   
   const [checkoutStep, setCheckoutStep] = useState('cart');
@@ -104,8 +103,9 @@ function App() {
   };
 
   const sendOrderToTelegram = async () => {
-    if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === 'ВАШ_ТОКЕН_БОТА' || currentBranch.chatId.startsWith('CHAT_ID')) {
-      alert(`Демо-режим: заказ для филиала "${currentBranch.name}" оформлен (замените Chat ID для отправки в Telegram).`);
+    // Если токен или chat_id шаблонные, срабатывает демо-режим без ошибки связи
+    if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === 'ВАШ_ТОКЕН_БОТА' || currentBranch.chatId.includes('CHAT_ID')) {
+      alert(`✅ [Демо-режим] Заказ для филиала "${currentBranch.name}" успешно оформлен!`);
       return true; 
     }
 
@@ -124,7 +124,7 @@ function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          chat_id: currentBranch.chatId, // Заказ улетит в чат конкретного филиала!
+          chat_id: currentBranch.chatId,
           text: message,
           parse_mode: 'HTML'
         })
