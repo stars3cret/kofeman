@@ -13,7 +13,6 @@ import bubbleTeaImg from './bubble_tea.jpg';
 
 const TELEGRAM_BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';
 
-// Список филиалов с индивидуальными Chat ID (если заменено на CHAT_ID_, включится демо-режим во избежание ошибок)
 const branches = [
   { name: 'ул. Кофейная, д. 1 (Центральный)', chatId: 'CHAT_ID_CENTRAL' },
   { name: 'пр. Ленина, д. 45', chatId: 'CHAT_ID_LENINA' },
@@ -103,7 +102,6 @@ function App() {
   };
 
   const sendOrderToTelegram = async () => {
-    // Если токен или chat_id шаблонные, срабатывает демо-режим без ошибки связи
     if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === 'ВАШ_ТОКЕН_БОТА' || currentBranch.chatId.includes('CHAT_ID')) {
       alert(`✅ [Демо-режим] Заказ для филиала "${currentBranch.name}" успешно оформлен!`);
       return true; 
